@@ -1,7 +1,7 @@
 {
   "name": "npmsearch",
   "version": "0.1.0",
-  "description": "Allows you to search the npm registry by keywords. Results are carefully tuned - sorted using both relevance and downloads.",
+  "description": "Search the npm registry. Results are carefully tuned - sorted using both relevance and downloads.",
   "main": "index.js",
   "dependencies": {
     "async": "~0.1.22",
@@ -17,12 +17,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "",
+  "repository": {
+      "type":"git",
+      "url":"https://github.com/spion/npmsearch.git"
+  },
   "keywords": [
     "npm",
     "search",
     "downloads",
-    "relevance"
+    "relevance",
+    "sort"
   ],
   "author": "spion <gorgi.kosev@gmail.com>",
   "license": "BSD"
