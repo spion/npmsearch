@@ -4,7 +4,8 @@ var search = require('../index.js');
 var argv = require('optimist').argv;
 
 search(argv._, argv, function(err, results) {
-    for (var k = 0; k < Math.min(results.length, 7); ++k) {
+    var limit = argv.limit || 7;
+    for (var k = 0; k < Math.min(results.length, limit); ++k) {
         var details = results[k];
         var space = "    ";
         var pkg = JSON.parse(details.data);
