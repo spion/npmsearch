@@ -10,12 +10,14 @@ function search(keywords, options, cb) {
     options = options || {};
     options.relevance = options.relevance || 2;
     options.downloads = options.downloads || 0.3;
-    options.halflife = options.halflife || 30;
+    options.halflife  = options.halflife || 30;
+    options.freshness = options.freshness || 1.5;
+    if (options.refresh) options.freshness = 0;
 
     var datenow = Date.now();
 
     keywords = keywords.map(function(kw) { return stemmer(kw).toLowerCase(); });
-    sdb.prepare(function(er, db) {
+    sdb.prepare(options, function(er, db) {
         db.all("SELECT p.name, SUM(k.count) as relevance, COUNT(k.word) as keycount,"
             +" p.data as data"
             +" FROM keywords k, packages p"
