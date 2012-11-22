@@ -1,0 +1,25 @@
+{
+  "name": "npmsearch",
+  "version": "0.1.0",
+  "description": "Allows you to search the npm registry by downloads, popularity, relevance or recency",
+  "main": "index.js",
+  "dependencies": {
+    "async": "~0.1.22",
+    "optimist": "~0.3.5",
+    "npm-registry-client": "*",
+    "sqlite3": "~2.1.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "npm",
+    "search",
+    "downloads",
+    "popularity"
+  ],
+  "author": "spion",
+  "license": "BSD"
+}
