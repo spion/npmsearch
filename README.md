@@ -1,4 +1,4 @@
-# npm-search
+# npmsearch
 
 Allows you to search the npm registry by keywords. 
 
