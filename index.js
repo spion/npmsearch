@@ -12,12 +12,12 @@ function confidence(p, n) {
 }
 
 function cooccur(db, keywords, cb) {
-    // Disabled at the moment
-    return cb(null, []);
+    // Disabled at the moment as it ups the query time
+    // return cb(null, []);
     // Find co-occuring keywords 
     var q = ' select k1.word as word, k2.word as coword, count(k2.name) as cooccur ' 
           +' from keywords k1 join keywords k2 on k1.name = k2.name '
-          +' where k2.word <> k1.word and k1.word in ('+ sdb.array(keywords) +')'
+          +' where k2.word <> k1.word and k1.word in ('+ sdb.array(keywords) +') '
           +' group by k1.word, k2.word order by cooccur desc limit 900;';
     db.all(q, keywords, function(er, cdata) {
         if (er) throw er;
