@@ -8,8 +8,8 @@ var stemmer = require('./lib/stemmer');
 function search(keywords, options, cb) {
 
     options = options || {};
-    options.relevance = options.relevance || 2;
-    options.downloads = options.downloads || 0.3;
+    options.relevance = options.relevance || 1;
+    options.downloads = options.downloads || 0.25;
     options.halflife  = options.halflife || 30;
     options.freshness = options.freshness || 1.5;
     if (options.refresh) options.freshness = 0;
@@ -44,8 +44,10 @@ function search(keywords, options, cb) {
                          });
                          function formula(pkg) {
                              pkg.downloads = Math.round(downloads[pkg.name]);
-                             return Math.pow(pkg.relevance / Math.pow(pkg.keycount, 0.5), options.relevance) 
+                             var formulaRes = Math.pow(pkg.relevance / Math.pow(pkg.keycount, 0.5), options.relevance) 
                                 * Math.pow(pkg.downloads || 0, options.downloads);
+                             pkg.formula = Math.round(formulaRes);
+                             return formulaRes;
                          }
                          data.forEach(function(pkg) {
                              pkg.keys = packages.extractKeywords(pkg).length;
@@ -57,4 +59,6 @@ function search(keywords, options, cb) {
             }); 
     });
 }
+
 module.exports = search;
+

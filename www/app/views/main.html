@@ -1,0 +1,34 @@
+<form class="form-search span7" ng-submit="search();">
+    <h1>npmsearch 
+    <input type="text" class="input-medium search-query" ng-model="query">
+    <button type="submit" class="btn">Search</button>
+    </h1>
+</form> 
+<div ng-repeat="pkg in results" class="span7">
+    <div class="row">
+    <hr>
+    <h2 class="pull-left span5">
+        <a href="http://npmjs.org/package/{{pkg.name}}">{{pkg.name}}</a>
+    </h2>
+    <p class="pull-right span2" style="text-align:right;margin-top:20px;">
+        <span title="Downloads (half-lifed)" class="badge badge-success">{{pkg.downloads}}</span>
+        <span title="Relevance" class="badge badge-info">{{pkg.relevance}}</span>
+        <span title="Score" class="badge badge-inverse">{{pkg.formula}}</span>
+    </p>
+    <p class="span5 pull-left">
+    <em>{{pkg.details['dist-tags'].latest}}</em>
+    </p>
+    <p class="span2 pull-right" style="text-align:right;">
+    <span>
+        {{ pkg.details.time.modified | date: 'mediumDate' }}        
+    </span>
+    <span ng-show="pkg.details.repository">
+        (<a href="{{pkg.details.repository.url}}">{{pkg.details.repository.type}}</a>)
+    </span>
+    </p>
+    <p class="span7">{{pkg.details.description}}</p>
+    <p class="span7">by <a href="http://npmjs.org/~{{pkg.details.maintainers[0].name}}">{{pkg.details.author.name}}</a> 
+    </p>
+</div>
+</div>
+
