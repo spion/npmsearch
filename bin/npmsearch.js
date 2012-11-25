@@ -12,7 +12,8 @@ search(argv._, argv, function(err, results) {
         console.log("*", pkg.name, '(' + details.relevance, details.downloads + ')');
         console.log(space, pkg.description);
         if (pkg.author) console.log(space, "by", pkg.author.name, "<" + pkg.author.email + ">");
-        if (pkg.repository) console.log(space, pkg.repository.url);
+        if (pkg.repository) 
+            console.log(space, pkg.repository.url.replace('git://','http://'));
         console.log();
     }
 });
