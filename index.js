@@ -63,7 +63,6 @@ function search(keywords, options, cb) {
     options.relevance = options.relevance || 1;
     options.downloads = options.downloads || 0.25;
     options.halflife  = options.halflife || 30;
-    options.hot = options.hot || false;
 
     options.freshness = options.freshness || 1.5;
     if (options.refresh) options.freshness = 0;
@@ -71,18 +70,20 @@ function search(keywords, options, cb) {
     var datenow = Date.now();
 
     keywords = keywords.map(function(kw) { return stemmer(kw).toLowerCase(); });
+
     sdb.prepare(options, function(er, db) {
         cooccur(db, options, keywords, function(er, suggestions) {
             var sugo = suggestions.sort(function(a, b) { return b.value - a.value; 
-            }).filter(function(el) { return el.value > 0.1 });
+            }).filter(function(el) { return el.value > 0.2 });
             
-            console.log("Suggestions:", JSON.stringify(sugo));
+            //console.log("Suggestions:", JSON.stringify(sugo));
             var sug = sugo.map(function(w) { return w.word });
             db.all(" SELECT p.name, SUM(k.count) as relevance, COUNT(k.word) as keycount,"
                 +" p.data as data"
                 +" FROM keywords k, packages p"
                 +" WHERE p.name = k.name "
-                +" AND k.word IN (" + sdb.array(keywords.concat(sug)) + ") GROUP BY p.name;",
+                +" AND k.word IN (" + sdb.array(keywords.concat(sug)) + ") "
+                +" GROUP BY p.name;",
                 keywords.concat(sug), function(er, data) {
                     if (er) throw er; 
                     // Keep only packages that match ALL keywords.
