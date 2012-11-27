@@ -11,11 +11,11 @@ function confidence(p, n) {
     return (phat + z*z/(2*n) - z * Math.sqrt((phat*(1-phat)+z*z/(4*n))/n))/(1+z*z/n);
 }
 
-function cooccur(db, keywords, cb) {
-    // Disabled at the moment as it ups the query time
-    // return cb(null, []);
+function cooccur(db, opt, keywords, cb) {
+    // if exact keyword match requested, don't expand keywords.
+    if (opt && opt.exact) return cb(null, []);
     // Find co-occuring keywords 
-    var q = ' select k1.word as word, k2.word as coword, count(k2.name) as cooccur ' 
+    var q = ' select k1.word as word, k2.word as coword,  count(k2.name) as cooccur ' 
           +' from keywords k1 join keywords k2 on k1.name = k2.name '
           +' where k2.word <> k1.word and k1.word in ('+ sdb.array(keywords) +') '
           +' group by k1.word, k2.word order by cooccur desc limit 900;';
@@ -38,15 +38,14 @@ function cooccur(db, keywords, cb) {
             cdata.forEach(function (cowords) {
                 cowords.cocount = word_ncount[cowords.coword];
                 cowords.wocount = word_ncount[cowords.word];
-                cowords.alloccur = word_ncount[cowords.word] + word_ncount[cowords.coword] 
-                    - cowords.cooccur; // remove once because its counted twice.
+                cowords.alloccur = word_ncount[cowords.word] + word_ncount[cowords.coword];
                 //console.log(cowords);
             });
             var suggestions = extra.map(function (extra) {
 
                 // relevant are all keywords co-occuring with this coword (word suggestion).
                 var relevant = cdata.filter(function(cow) { return cow.coword == extra });
-                var co_occurs = relevant.reduce(function(acc, el) { return acc + el.cooccur; }, 0);
+                var co_occurs = relevant.reduce(function(acc, el) { return acc + 2 * el.cooccur; }, 0);
                 // this is not exactly right as it doesnt take into account that some of
                 // the keywords may co-occur frequently.
                 var all_occurs = relevant.reduce(function(acc, el) { return acc + el.alloccur; }, 0);
@@ -64,6 +63,8 @@ function search(keywords, options, cb) {
     options.relevance = options.relevance || 1;
     options.downloads = options.downloads || 0.25;
     options.halflife  = options.halflife || 30;
+    options.hot = options.hot || false;
+
     options.freshness = options.freshness || 1.5;
     if (options.refresh) options.freshness = 0;
 
@@ -71,11 +72,12 @@ function search(keywords, options, cb) {
 
     keywords = keywords.map(function(kw) { return stemmer(kw).toLowerCase(); });
     sdb.prepare(options, function(er, db) {
-        cooccur(db, keywords, function(er, suggestions) {
-            var sug = suggestions.sort(function(a, b) { return b.value - a.value; 
-            }).filter(function(el) { return el.value > 0.1
-            }).map(function(w) { return w.word });
-            //console.log("Suggestions:", JSON.stringify(sug));
+        cooccur(db, options, keywords, function(er, suggestions) {
+            var sugo = suggestions.sort(function(a, b) { return b.value - a.value; 
+            }).filter(function(el) { return el.value > 0.1 });
+            
+            console.log("Suggestions:", JSON.stringify(sugo));
+            var sug = sugo.map(function(w) { return w.word });
             db.all(" SELECT p.name, SUM(k.count) as relevance, COUNT(k.word) as keycount,"
                 +" p.data as data"
                 +" FROM keywords k, packages p"

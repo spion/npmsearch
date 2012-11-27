@@ -1,9 +1,12 @@
 <form class="form-search span7" ng-submit="search();">
     <h1>npmsearch 
-    <input type="text" class="input-medium search-query" ng-model="query">
+    <input type="text" ng-change="updateText();" class="input-medium search-query" ng-model="query">
     <button type="submit" class="btn">Search</button>
     </h1>
 </form> 
+<div ng-hide="results" class="span7">
+    <h2 ng-bind="text"></h2>
+</div>
 <div ng-repeat="pkg in results" class="span7">
     <div class="row">
     <hr>

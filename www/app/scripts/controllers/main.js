@@ -1,11 +1,20 @@
 wwwApp.controller('MainCtrl', function($scope, $location) {
+    $scope.updateText = function() {
+        $scope.text = $scope.query && $scope.query.length > 2
+            ? "... and press Search to get great results :)"
+            : "Type your query...";
+    }
     $scope.search = function() {
         $location.path('/find')
         $location.search({q:$scope.query});
     }
+    $scope.updateText();
 });
 
 wwwApp.controller('SearchCtrl', function($scope, $location, $http) {
+    $scope.updateText = function() { };
+    $scope.text = "";
+
     $scope.search = function() {
         $location.path('/find')
         $location.search({q:$scope.query});

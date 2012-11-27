@@ -10,7 +10,7 @@ Results are carefully tuned - sorted using both relevance and downloads.
 
 # Usage
 
-    npmsearch [options] <keywords>
+    npmsearch <keywords> [options]
 
 Here is a sample listing:
 
