@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 
 var search = require('../index.js');
-var argv = require('optimist').argv;
+var argv = require('optimist')
+    .demand(1)
+    .describe('exact',     "Use exact keywords only (bool)")
+    .describe('relevance', "Relevance factor for sorting")
+    .describe('downloads', "Downloads factor for sorting")
+    .describe('halflife',  "Halflife of download count value in days")
+    .describe('freshness', "Demand database freshness (days) or update")
+    .describe('refresh',   "Force database update (bool)")
+    .argv
 
 search(argv._, argv, function(err, results) {
     var limit = argv.limit || 7;
