@@ -42,13 +42,12 @@ Here is a sample listing:
     ...
 
 # Options
-
-* relevance - how big of a factor should keyword relevance be `number > 0` `default 2`
-* downloads - how big of a factor is the number of downloads `number > 0` `default 0.25`
-* halflife  - the halflife of downloads e.g. 7 means downloads that are 7 days old lose half of their value `number > 0` `default 30`
-* exact     - don't try to expand keywords, use only the keywords specified. (boolean)
-* limit     - number of results to display `number > 0` `default 7`
-* freshness - maximum age of the database results to use in days.  `number > 0` `default 1.5`
-* refresh   - force database reload (boolean)
-
+* --exact      use exact keywords only (bool)                          
+* --relevance  relevance factor for sorting `number > 0` `default 0.25`
+* --downloads  downloads factor for sorting `number > 0` `default 1`   
+* --freshness  freshness factor for sorting `number > 0` `default 0.5` 
+* --halflife   halflife of download count value in days                
+* --aging      halflife of package freshness in days                   
+* --dataAge    maximum data age in (days) or update data from server   
+* --refresh    force data update (bool)                                
 

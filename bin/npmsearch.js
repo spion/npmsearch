@@ -3,12 +3,14 @@
 var search = require('../index.js');
 var argv = require('optimist')
     .demand(1)
-    .describe('exact',     "Use exact keywords only (bool)")
-    .describe('relevance', "Relevance factor for sorting")
-    .describe('downloads', "Downloads factor for sorting")
-    .describe('halflife',  "Halflife of download count value in days")
-    .describe('freshness', "Demand database freshness (days) or update")
-    .describe('refresh',   "Force database update (bool)")
+    .describe('exact',     "use exact keywords only (bool)")
+    .describe('relevance', "relevance factor for sorting `number > 0` `default 0.25`")
+    .describe('downloads', "downloads factor for sorting `number > 0` `default 1`")
+    .describe('freshness', "freshness factor for sorting `number > 0` `default 0.5`")
+    .describe('halflife',  "halflife of download count value in days")
+    .describe('aging',     "halflife of package freshness in days")
+    .describe('dataAge',   "maximum data age in (days) or update data from server")
+    .describe('refresh',   "force data update (bool)")
     .argv
 
 search(argv._, argv, function(err, results) {

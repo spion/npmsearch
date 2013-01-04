@@ -60,12 +60,16 @@ function cooccur(db, opt, keywords, cb) {
 function search(keywords, options, cb) {
 
     options = options || {};
-    options.relevance = options.relevance || 1;
-    options.downloads = options.downloads || 0.25;
-    options.halflife  = options.halflife || 30;
+    options.relevance = options.relevance || 1; // relevance
+    options.downloads = options.downloads || 0.25; // half-lifed downloads
+    options.freshness = options.freshness || 0.5 // package update
 
-    options.freshness = options.freshness || 1.5;
-    if (options.refresh) options.freshness = 0;
+    options.halflife  = options.halflife  || 30; // downloads older than 30 days
+    options.aging     = options.aging     || 90; // 3 months without update for package = 1/2 value
+    options.dataAge   = options.dataAge   || 1.5; // 1.5 days without update
+
+
+    if (options.refresh) options.dataAge = 0;
 
     var datenow = Date.now();
 
@@ -103,16 +107,20 @@ function search(keywords, options, cb) {
                         function(er, dls) {
                             if (er) throw er;
                             var downloads = {};
+                            var halflifems = options.halflife * 24 * 60 * 60 * 1000;
                             dls.forEach(function(dl) {
-                                var halflifems = options.halflife * 24 * 60 * 60 * 1000;
                                 downloads[dl.name] = (downloads[dl.name] || 0) 
                                 + dl.count * Math.pow(2, (dl.date - datenow) / halflifems); 
                             });
+                            var aging = options.aging * 24 * 60 * 60 * 1000;
                             function formula(pkg) {
+                                if (pkg.formulaRes) return pkg.formulaRes;
+                                var freshness = Math.pow(2, (new Date(pkg.data.time.modified).getTime() - datenow) / aging);
                                 pkg.downloads = Math.round(downloads[pkg.name]);
                                 var formulaRes = Math.pow(pkg.relevance / Math.pow(pkg.keycount, 0.5), 
-                                    options.relevance) * Math.pow(pkg.downloads || 0, options.downloads);
+                                    options.relevance) * Math.pow(pkg.downloads || 0, options.downloads) * Math.pow(freshness, options.freshness);
                                 pkg.formula = Math.round(formulaRes);
+                                pkg.formulaRes = formulaRes;
                                 return formulaRes;
                             }
                             data.forEach(function(pkg) {
