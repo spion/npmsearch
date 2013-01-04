@@ -42,12 +42,13 @@ Here is a sample listing:
     ...
 
 # Options
-* --exact      use exact keywords only (bool)                          
-* --relevance  relevance factor for sorting `number > 0` `default 0.25`
-* --downloads  downloads factor for sorting `number > 0` `default 1`   
-* --freshness  freshness factor for sorting `number > 0` `default 0.5` 
-* --halflife   halflife of download count value in days                
-* --aging      halflife of package freshness in days                   
-* --dataAge    maximum data age in (days) or update data from server   
-* --refresh    force data update (bool)                                
+
+*  --exact      use exact keywords only (bool)                          
+*  --relevance  relevance factor for sorting `number > 0` `default 0.25`
+*  --downloads  downloads factor for sorting `number > 0` `default 1.5` 
+*  --freshness  freshness factor for sorting `number > 0` `default 0.5` 
+*  --halflife   halflife of download count value in days                
+*  --aging      halflife of package freshness in days                   
+*  --dataAge    maximum data age in (days) or update data from server   
+*  --refresh    force data update (bool)                                
 

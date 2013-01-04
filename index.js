@@ -60,7 +60,7 @@ function cooccur(db, opt, keywords, cb) {
 function search(keywords, options, cb) {
 
     options = options || {};
-    options.relevance = options.relevance || 1; // relevance
+    options.relevance = options.relevance || 1.5; // relevance
     options.downloads = options.downloads || 0.25; // half-lifed downloads
     options.freshness = options.freshness || 0.5 // package update
 
@@ -115,10 +115,15 @@ function search(keywords, options, cb) {
                             var aging = options.aging * 24 * 60 * 60 * 1000;
                             function formula(pkg) {
                                 if (pkg.formulaRes) return pkg.formulaRes;
-                                var freshness = Math.pow(2, (new Date(pkg.data.time.modified).getTime() - datenow) / aging);
+                                if (pkg.data.time && pkg.data.time.modified)
+                                    var freshness = Math.pow(2, 
+                                        (new Date(pkg.data.time.modified).getTime() - datenow) / aging);
+                                else var freshness = 0.1;
                                 pkg.downloads = Math.round(downloads[pkg.name]);
                                 var formulaRes = Math.pow(pkg.relevance / Math.pow(pkg.keycount, 0.5), 
-                                    options.relevance) * Math.pow(pkg.downloads || 0, options.downloads) * Math.pow(freshness, options.freshness);
+                                    options.relevance) 
+                                    * Math.pow(pkg.downloads || 0, options.downloads) 
+                                    * Math.pow(freshness, options.freshness);
                                 pkg.formula = Math.round(formulaRes);
                                 pkg.formulaRes = formulaRes;
                                 return formulaRes;
