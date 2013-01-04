@@ -94,6 +94,9 @@ function search(keywords, options, cb) {
                             return p2.relevance - p1.relevance; 
                         }).slice(0,999);
                     }
+                    // Parse JSON in p.data
+                    data.forEach(function(pkg) { pkg.data = JSON.parse(pkg.data); });
+
                     var names = data.map(function(p) { return p.name; });
                     db.all(" SELECT * FROM downloads"
                         +" WHERE name IN (" + sdb.array(names)  + ")", names, 

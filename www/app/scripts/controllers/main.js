@@ -18,7 +18,7 @@ wwwApp.controller('SearchCtrl', function($scope, $location, $http) {
         })
     }}).success(function(data) {
         $scope.results = data.map(function(item) { 
-            item.details = JSON.parse(item.data); 
+            item.details = item.data;
             if (item.details.repository && item.details.repository.url) {
                 item.details.url = item.details.url || item.details.repository.url.replace(/^git/,'https')
             }

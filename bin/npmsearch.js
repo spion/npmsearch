@@ -16,7 +16,7 @@ search(argv._, argv, function(err, results) {
     for (var k = 0; k < Math.min(results.length, limit); ++k) {
         var details = results[k];
         var space = "    ";
-        var pkg = JSON.parse(details.data);
+        var pkg = details.data;
         console.log("*", pkg.name, '(' + details.relevance, details.downloads + ')');
         console.log(space, pkg.description);
         if (pkg.author) console.log(space, "by", pkg.author.name, "<" + pkg.author.email + ">");
