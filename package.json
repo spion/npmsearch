@@ -1,6 +1,6 @@
 {
   "name": "npmsearch",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Search the npm registry. Results are carefully tuned - sorted using both relevance and downloads.",
   "main": "index.js",
   "dependencies": {
