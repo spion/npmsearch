@@ -1,1 +1,4 @@
 /* Will be compiled down to a single stylesheet with your sass files */
+.searching {
+    padding: 0 0 1em 0;
+}

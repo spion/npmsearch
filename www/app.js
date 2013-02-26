@@ -40,3 +40,10 @@ app.get(/.+/, function(req, res) {
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
+setInterval(function() {
+    // Update every day.
+    try {
+        search("1234567890", {}, function(err, data) {});
+    } catch (e) {};
+}, 86400 * 1000);

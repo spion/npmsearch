@@ -7,6 +7,15 @@
 <div ng-hide="results" class="span7">
     <h2 ng-bind="text"></h2>
 </div>
+<div ng-show="searching" class="span7 searching">
+    <img src="images/wait.gif" alt=""> Searching...
+</div>
+<div ng-show="failed" class="alert alert-error span7">
+    Search failed. Try a different query?
+</div>
+<div ng-show="results && !results.length" class="alert alert-info span7">
+    No results found.
+</div>
 <div ng-repeat="pkg in results" class="span7">
     <div class="row">
     <hr>
