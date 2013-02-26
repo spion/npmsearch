@@ -11,7 +11,7 @@ var express = require('express')
 var app = express();
 
 app.configure(function(){
-  app.set('port', process.env.PORT || 8080);
+  app.set('port', process.env.PORT || 8100);
   app.use(express.compress());
   app.use(express.favicon());
   //app.use(express.logger('dev'));

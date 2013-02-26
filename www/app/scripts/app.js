@@ -3,14 +3,10 @@
 var wwwApp = angular.module('wwwApp', [])
 .config(['$routeProvider','$locationProvider', 
         function($routeProvider, $locationProvider) {
-            $locationProvider.html5mode(true)
+            $locationProvider.html5Mode(true)
                 .hashPrefix('!');
             $routeProvider
-            .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'MainCtrl'
-            })
-            .when('/find', {
+           .when('/:query', {
                 templateUrl: 'views/main.html',
                 controller: 'SearchCtrl'
             }) 

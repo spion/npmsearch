@@ -1,18 +1,11 @@
-wwwApp.controller('MainCtrl', function($scope, $location) {
-   $scope.search = function() {
-        $location.path('/find')
-        $location.search({q:$scope.query});
-    }
-});
-
-wwwApp.controller('SearchCtrl', function($scope, $location, $http) {
-
+wwwApp.controller('SearchCtrl', function($scope, $location, $http, $routeParams) {
     $scope.search = function() {
-        $location.path('/find')
-        $location.search({q:$scope.query});
+        $location.path('/' + $scope.query);
     }
+    if (!$routeParams.query) return;
+
     $http.get('/search', {params: {
-        q: $location.search().q, 
+        q: $routeParams.query,
         options: JSON.stringify({
             limit: 50
         })
