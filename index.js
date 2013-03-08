@@ -72,7 +72,7 @@ function search(keywords, options, cb) {
     options.freshness = options.freshness || 0.5 // package update
 
     options.halflife  = options.halflife  || 30; // downloads older than 30 days
-    options.aging     = options.aging     || 90; // 3 months without update for package = 1/2 value
+    options.aging     = options.aging     || 180; // 6 months without update for package = 1/2 value
     options.dataAge   = options.dataAge   || 1.5; // 1.5 days without update
 
 

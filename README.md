@@ -1,8 +1,19 @@
 # npmsearch
 
-Allows you to search the npm registry by keywords. 
+Allows you to search the npm registry by keywords from the command line.
 
 Results are carefully tuned - sorted using both relevance and downloads.
+
+Here are some cool points of the algorithm:
+
+* Keywords are stemmed and expanded using a cooccurrance matrix (e.g. mongo -> mongo, mongodb)
+* Download counts age exponentially - recent downloads are valued more than old downloads.
+
+Search is fast - `npmsearch` uses a local database populated directly by the npm registry (no middle-man server involved)
+
+# Trying it
+
+Want to try it first? Visit the [web based demo](http://npmsearch.docucalc.com)
 
 # Install
 
@@ -46,9 +57,9 @@ Here is a sample listing:
 *  --exact      use exact keywords only (bool)                          
 *  --relevance  relevance factor for sorting `number > 0` `default 0.25`
 *  --downloads  downloads factor for sorting `number > 0` `default 1.5` 
-*  --freshness  freshness factor for sorting `number > 0` `default 0.5` 
-*  --halflife   halflife of download count value in days                
-*  --aging      halflife of package freshness in days                   
-*  --dataAge    maximum data age in (days) or update data from server   
-*  --refresh    force data update (bool)                                
+*  --freshness  freshness factor for sorting `number > 0` `default 0.25` 
+*  --halflife   halflife of download count value in days  `default 30
+*  --aging      halflife of package freshness in days     `default 180`
+*  --dataAge    maximum data age in (days) or fetch from registry (default 1.5)
+*  --refresh    force data update (bool)
 
