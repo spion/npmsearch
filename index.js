@@ -16,10 +16,18 @@ function cooccur(db, opt, keywords, cb) {
     if (opt && opt.exact) return cb(null, []);
     // Find co-occuring keywords 
     var q = ' select k1.word as word, k2.word as coword,  count(k2.name) as cooccur ' 
-          +' from keywords k1 join keywords k2 on k1.name = k2.name '
-          +' where k2.word <> k1.word and k1.word in ('+ sdb.array(keywords) +') '
-          +' group by k1.word, k2.word order by cooccur desc limit 900;';
-    db.all(q, keywords, function(er, cdata) {
+          + ' from keywords k1 join keywords k2 on k1.name = k2.name '
+          + ' where k1.word in ('+ sdb.array(keywords) +') and k2.word <> k1.word '
+          + ' group by k1.word, k2.word order by cooccur desc limit 200;';
+ 
+    var q = ' select word1 as word, word2 as coword, count as cooccur from similars '
+          + ' where word1 in (' + sdb.array(keywords) + ') '
+          + ' union '
+          + ' select word2 as word, word1 as coword, count as cooccur from similars '
+          + ' where word1 in (' + sdb.array(keywords) + ') '
+          + ' order by cooccur desc limit 500;';
+          
+    db.all(q, keywords.concat(keywords), function(er, cdata) {
         if (er) throw er;
         var extra = cdata
             .filter(function(el) { return el.cooccur > 1; })
@@ -39,7 +47,6 @@ function cooccur(db, opt, keywords, cb) {
                 cowords.cocount = word_ncount[cowords.coword];
                 cowords.wocount = word_ncount[cowords.word];
                 cowords.alloccur = word_ncount[cowords.word] + word_ncount[cowords.coword];
-                //console.log(cowords);
             });
             var suggestions = extra.map(function (extra) {
 
@@ -76,11 +83,12 @@ function search(keywords, options, cb) {
     keywords = keywords.map(function(kw) { return stemmer(kw).toLowerCase(); });
 
     sdb.prepare(options, function(er, db) {
+        if (er) console.log(er);
         cooccur(db, options, keywords, function(er, suggestions) {
-            var sugo = suggestions.sort(function(a, b) { return b.value - a.value; 
+            var sugo = suggestions.sort(function(a, b) { 
+                return b.value - a.value; 
             }).filter(function(el) { return el.value > 0.2 });
             
-            //console.log("Suggestions:", JSON.stringify(sugo));
             var sug = sugo.map(function(w) { return w.word });
             db.all(" SELECT p.name, SUM(k.count) as relevance, COUNT(k.word) as keycount,"
                 +" p.data as data"
@@ -89,6 +97,8 @@ function search(keywords, options, cb) {
                 +" AND k.word IN (" + sdb.array(keywords.concat(sug)) + ") "
                 +" GROUP BY p.name;",
                 keywords.concat(sug), function(er, data) {
+
+
                     if (er) throw er; 
                     // Keep only packages that match ALL keywords.
                     data = data.filter(function(p) { return p.keycount >= keywords.length; });
@@ -105,6 +115,8 @@ function search(keywords, options, cb) {
                     db.all(" SELECT * FROM downloads"
                         +" WHERE name IN (" + sdb.array(names)  + ")", names, 
                         function(er, dls) {
+
+
                             if (er) throw er;
                             var downloads = {};
                             var halflifems = options.halflife * 24 * 60 * 60 * 1000;
