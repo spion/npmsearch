@@ -41,9 +41,18 @@ http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-setInterval(function() {
-    // Update every day.
+function dailyUpdate() {
     try {
-        search("1234567890", {}, function(err, data) {});
-    } catch (e) {};
-}, 86400 * 1000);
+        search("asdfasdf", {}, function(err, data) {
+            if (err) console.log("Error refreshing DB", err);
+        });
+    } catch (e) {
+        console.log("Exception while refreshing db", e);
+    };
+};
+
+// Update every day.
+setInterval(dailyUpdate, 86400 * 1000);
+// Also start with an update.
+dailyUpdate();
+
