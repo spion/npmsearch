@@ -43,7 +43,7 @@ http.createServer(app).listen(app.get('port'), function(){
 
 function dailyUpdate() {
     try {
-        search("asdfasdf", {}, function(err, data) {
+        search(["asdfasdf"], {}, function(err, data) {
             if (err) console.log("Error refreshing DB", err);
         });
     } catch (e) {
