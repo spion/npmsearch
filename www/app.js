@@ -10,6 +10,9 @@ var express = require('express')
 
 var app = express();
 
+
+console.log("Running as", process.getgid(), "in", process.cwd());
+
 app.configure(function(){
   app.set('port', process.env.PORT || 8100);
   app.use(express.compress());
