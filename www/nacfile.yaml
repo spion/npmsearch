@@ -4,3 +4,4 @@ args:
 env:
   NODE_ENV: production
   PORT: 8100
+  HOME: /home/spion/
