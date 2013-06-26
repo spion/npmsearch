@@ -1,0 +1,6 @@
+command: node
+args:
+  _: [app.js]
+env:
+  NODE_ENV: production
+  PORT: 8100
