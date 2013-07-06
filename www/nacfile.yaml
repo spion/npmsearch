@@ -1,6 +1,8 @@
 command: node
 args:
   _: [app.js]
+scripts:
+  deploy: './deploy.sh'
 env:
   NODE_ENV: production
   PORT: 8100
