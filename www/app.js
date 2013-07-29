@@ -47,8 +47,9 @@ http.createServer(app).listen(app.get('port'), function(){
 
 function dailyUpdate() {
     try {
-        search(["asdfasdf"], {}, function(err, data) {
+        search(["asdfasdf"], {refresh: true}, function(err, data) {
             if (err) console.log("Error refreshing DB", err);
+            else console.log("Database updated");
         });
     } catch (e) {
         console.log("Exception while refreshing db", e);
