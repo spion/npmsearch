@@ -1,9 +1,14 @@
-
 /**
  * Module dependencies.
  */
 
-console.log("Running as", process.getgid(), "in", process.cwd());
+//check platform, don't show GID if the user is running Windows as it causes the server to crash
+var os = require('os')
+if(os.platform() == 'win32') {
+  console.log('Application running');
+} else {
+  console.log("Running as", process.getgid(), "in", process.cwd());
+}
 
 var express = require('express')
   , http = require('http')
