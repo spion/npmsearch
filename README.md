@@ -1,6 +1,5 @@
-**The npm download count API endpoints dont exist anymore. 
-Their [replacement][config-reference] is [not yet publically available][missing-config]. 
-This module relied heavily on it so it cannot be fixed at the moment**
+**The old npm download count API endpoints dont exist anymore.
+This module has not yet been upgraded to the new API so it doesn't work at the moment**
 
 [config-reference]: https://github.com/npm/npm-www/blob/master/models/downloads.js#L37
 [missing-config]: https://github.com/npm/npm-www/blob/master/config.js
