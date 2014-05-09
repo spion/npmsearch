@@ -10,10 +10,10 @@ if(os.platform() == 'win32') {
   console.log("Running as", process.getgid(), "in", process.cwd());
 }
 
-var express = require('express')
-  , http = require('http')
-  , path = require('path')
-  , search = require('../index.js');
+var express = require('express'), 
+    http = require('http'), 
+    path = require('path'), 
+    search = require('../lib/index.js');
 
 var app = express();
 
@@ -58,8 +58,8 @@ function dailyUpdate() {
         });
     } catch (e) {
         console.log("Exception while refreshing db", e);
-    };
-};
+    }
+}
 
 // Update every day.
 setInterval(dailyUpdate, 86400 * 1000);

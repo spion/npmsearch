@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var search = require('../index.js');
+var search = require('../lib/index.js');
 var argv = require('optimist')
     .demand(1)
     .describe('exact',     "use exact keywords only (bool)")

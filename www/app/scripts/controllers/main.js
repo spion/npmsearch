@@ -1,3 +1,6 @@
+(function() {
+var wwwApp = angular.module('wwwApp');
+
 wwwApp.controller('SearchCtrl', function($scope, $location, $http, $routeParams) {
     $scope.search = function() {
         $location.path('/' + $scope.query);
@@ -25,3 +28,4 @@ wwwApp.controller('SearchCtrl', function($scope, $location, $http, $routeParams)
     });
 
 });
+}());

@@ -1,5 +1,4 @@
-'use strict';
-
+(function() {
 var wwwApp = angular.module('wwwApp', [])
 .config(['$routeProvider','$locationProvider', 
         function($routeProvider, $locationProvider) {
@@ -14,3 +13,4 @@ var wwwApp = angular.module('wwwApp', [])
                 redirectTo: '/'
             });
         }]);
+}());
