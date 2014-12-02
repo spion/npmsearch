@@ -1,6 +1,6 @@
 {
   "name": "npmsearch",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Search the npm registry. Results are carefully tuned - sorted using both relevance and downloads. Fast - uses a local database populated directly by the npm registry (no middleman servers)",
   "main": "index.js",
   "dependencies": {
